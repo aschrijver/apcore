@@ -12,7 +12,7 @@ require (
 	github.com/gorilla/mux v1.8.0
 	github.com/gorilla/sessions v1.2.0
 	github.com/jackc/pgx/v4 v4.9.0
-	github.com/manifoldco/promptui v0.3.2
+	github.com/manifoldco/promptui v0.8.0
 	github.com/nicksnyder/go-i18n v1.10.1 // indirect
 	github.com/tidwall/gjson v1.6.0
 	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad
