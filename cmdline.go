@@ -263,7 +263,7 @@ func initAdminFn(a app.Application) error {
 // The 'configure' command line action.
 func configureFn(a app.Application) error {
 	if len(*configFlag) == 0 {
-		return fmt.Errorf("config flag to new or existing file is not set")
+		return fmt.Errorf("Config flag to new or existing file is not set")
 	}
 	exists := false
 	if _, err := os.Stat(*configFlag); err == nil {
@@ -276,7 +276,7 @@ func configureFn(a app.Application) error {
 			return nil
 		}
 	} else if !os.IsNotExist(err) {
-		return fmt.Errorf("cannot modify configuration: %s", err)
+		return fmt.Errorf("Cannot modify configuration: %s", err)
 	}
 	cfg, err := framework.PromptNewConfig(*configFlag)
 	if err != nil {

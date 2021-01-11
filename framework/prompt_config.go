@@ -167,7 +167,7 @@ Let's go!`)))
 	case postgresDB:
 		err = promptPostgresConfig(c)
 	default:
-		err = fmt.Errorf("unknown database kind: %s", c.DatabaseConfig.DatabaseKind)
+		err = fmt.Errorf("Unknown database kind: %s", c.DatabaseConfig.DatabaseKind)
 	}
 	return
 }

@@ -31,15 +31,15 @@ func promptYN(display string) (b bool, err error) {
 	p := promptui.Prompt{
 		Label: display,
 		Templates: &promptui.PromptTemplates{
-			Prompt:          fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }} {{ "[%s]" | faint }}`, promptui.IconInitial, "y/N"),
-			Valid:           fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }} {{ "[%s]" | faint }}`, promptui.IconGood, "y/N"),
-			Invalid:         fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }} {{ "[%s]" | faint }}`, promptui.IconBad, "y/N"),
-			ValidationError: fmt.Sprintf(`{{ ">>" | red }} {{ . | red }} {{ "[%s]" | faint }}`, "y/N"),
-			Success:         fmt.Sprintf(`{{ "%s" | bold }} {{ . | faint }} {{ "[%s]" | faint }}`, promptui.IconGood, "y/N"),
+			Prompt:          fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }} {{ "[%s] " | faint }}`, promptui.IconInitial, "y/N"),
+			Valid:           fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }} {{ "[%s] " | faint }}`, promptui.IconGood, "y/N"),
+			Invalid:         fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }} {{ "[%s] " | faint }}`, promptui.IconBad, "y/N"),
+			ValidationError: fmt.Sprintf(`{{ ">>" | red }} {{ . | red }} {{ "[%s] " | faint }}`, "y/N"),
+			Success:         fmt.Sprintf(`{{ "%s" | bold }} {{ . | faint }} {{ "[%s] " | faint }}`, promptui.IconGood, "y/N"),
 		},
 		Validate: func(input string) error {
 			if lower := strings.ToLower(input); lower != "y" && lower != "n" {
-				return fmt.Errorf("must be 'y/Y' or 'n/N'")
+				return fmt.Errorf("Must be 'y/Y' or 'n/N'")
 			}
 			return nil
 		},
@@ -56,7 +56,7 @@ func promptYN(display string) (b bool, err error) {
 	} else if s == "n" {
 		b = false
 	} else {
-		err = fmt.Errorf("unknown confirm prompt response: %q", s)
+		err = fmt.Errorf("Unknown confirm prompt response: %q", s)
 	}
 	return
 }
@@ -102,11 +102,11 @@ func promptStringWithDefault(display, def string) (s string, err error) {
 		Default:   def,
 		AllowEdit: false,
 		Templates: &promptui.PromptTemplates{
-			Prompt:          fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }}{{ ":" | bold}}`, promptui.IconInitial),
-			Valid:           fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }}{{ ":" | bold}}`, promptui.IconGood),
-			Invalid:         fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }}{{ ":" | bold}}`, promptui.IconBad),
-			ValidationError: fmt.Sprintf(`{{ ">>" | red }} {{ . | red }}{{ ":" | bold}}`),
-			Success:         fmt.Sprintf(`{{ "%s" | bold }} {{ . | faint }}{{ ":" | bold}}`, promptui.IconGood),
+			Prompt:          fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }}{{ ": " | bold}}`, promptui.IconInitial),
+			Valid:           fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }}{{ ": " | bold}}`, promptui.IconGood),
+			Invalid:         fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }}{{ ": " | bold}}`, promptui.IconBad),
+			ValidationError: fmt.Sprintf(`{{ ">>" | red }} {{ . | red }}{{ ": " | bold}}`),
+			Success:         fmt.Sprintf(`{{ "%s" | bold }} {{ . | faint }}{{ ": " | bold}}`, promptui.IconGood),
 		},
 	}
 	if len(def) > 0 {
@@ -141,11 +141,11 @@ func promptIntWithDefault(display string, def int) (v int, err error) {
 			return nil
 		},
 		Templates: &promptui.PromptTemplates{
-			Prompt:          fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }}{{ ":" | bold}}`, promptui.IconInitial),
-			Valid:           fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }}{{ ":" | bold}}`, promptui.IconGood),
-			Invalid:         fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }}{{ ":" | bold}}`, promptui.IconBad),
-			ValidationError: fmt.Sprintf(`{{ ">>" | red }} {{ . | red }}{{ ":" | bold}}`),
-			Success:         fmt.Sprintf(`{{ "%s" | bold }} {{ . | faint }}{{ ":" | bold}}`, promptui.IconGood),
+			Prompt:          fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }}{{ ": " | bold}}`, promptui.IconInitial),
+			Valid:           fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }}{{ ": " | bold}}`, promptui.IconGood),
+			Invalid:         fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }}{{ ": " | bold}}`, promptui.IconBad),
+			ValidationError: fmt.Sprintf(`{{ ">>" | red }} {{ . | red }}{{ ": " | bold}}`),
+			Success:         fmt.Sprintf(`{{ "%s" | bold }} {{ . | faint }}{{ ": " | bold}}`, promptui.IconGood),
 		},
 	}
 	var s string
@@ -172,11 +172,11 @@ func promptFloat64WithDefault(display string, def int) (v float64, err error) {
 			return nil
 		},
 		Templates: &promptui.PromptTemplates{
-			Prompt:          fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }}{{ ":" | bold}}`, promptui.IconInitial),
-			Valid:           fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }}{{ ":" | bold}}`, promptui.IconGood),
-			Invalid:         fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }}{{ ":" | bold}}`, promptui.IconBad),
-			ValidationError: fmt.Sprintf(`{{ ">>" | red }} {{ . | red }}{{ ":" | bold}}`),
-			Success:         fmt.Sprintf(`{{ "%s" | bold }} {{ . | faint }}{{ ":" | bold}}`, promptui.IconGood),
+			Prompt:          fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }}{{ ": " | bold}}`, promptui.IconInitial),
+			Valid:           fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }}{{ ": " | bold}}`, promptui.IconGood),
+			Invalid:         fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }}{{ ": " | bold}}`, promptui.IconBad),
+			ValidationError: fmt.Sprintf(`{{ ">>" | red }} {{ . | red }}{{ ": " | bold}}`),
+			Success:         fmt.Sprintf(`{{ "%s" | bold }} {{ . | faint }}{{ ": " | bold}}`, promptui.IconGood),
 		},
 	}
 	var s string
