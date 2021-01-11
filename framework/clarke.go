@@ -29,7 +29,7 @@ const (
        \__/   /                                                      \
 \------(oo)  /                                                       |
  ||    (__) <                                                        |
- ||w--||     \-------------------------------------------------------/`
+ ||w--||     \_______________________________________________________/`
 	// Clarke says something longer.
 	// Lines 1 - 3 are the same as above
 	// Line 4 usable range is [298:351] (len=53)
@@ -40,7 +40,7 @@ const (
  ||w--||     |                                                       |`
 	// Line usable range is [15:68] (len=53)
 	clarkeLongMiddle = `             |                                                       |`
-	clarkeLongEnd    = `             \-------------------------------------------------------/`
+	clarkeLongEnd    = `             \_______________________________________________________/`
 )
 
 func replace(input, replace string, offset int) string {
