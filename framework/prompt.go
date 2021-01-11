@@ -19,6 +19,7 @@ package framework
 import (
 	"fmt"
 	"net/url"
+	"os"
 	"strconv"
 	"strings"
 
@@ -26,6 +27,30 @@ import (
 	"github.com/go-fed/apcore/services"
 	"github.com/manifoldco/promptui"
 )
+
+// bellSkipper implements an io.WriteCloser that skips the terminal bell
+// character (ASCII code 7), and writes the rest to os.Stderr. It is used to
+// replace readline.Stdout, that is the package used by promptui to display the
+// prompts.
+//
+// This is a workaround by https://github.com/mroth for the bell issue documented in
+// https://github.com/manifoldco/promptui/issues/49.
+type bellSkipper struct{}
+
+// Write implements an io.WriterCloser over os.Stderr, but it skips the terminal
+// bell character.
+func (bs *bellSkipper) Write(b []byte) (int, error) {
+	const charBell = 7 // c.f. readline.CharBell
+	if len(b) == 1 && b[0] == charBell {
+		return 0, nil
+	}
+	return os.Stderr.Write(b)
+}
+
+// Close implements an io.WriterCloser over os.Stderr.
+func (bs *bellSkipper) Close() error {
+	return os.Stderr.Close()
+}
 
 func promptYN(display string) (b bool, err error) {
 	p := promptui.Prompt{
@@ -44,6 +69,7 @@ func promptYN(display string) (b bool, err error) {
 			return nil
 		},
 		Default: "n",
+		Stdout:  &bellSkipper{},
 	}
 	var s string
 	s, err = p.Run()
@@ -63,8 +89,9 @@ func promptYN(display string) (b bool, err error) {
 
 func promptPassword(display string) (s string, err error) {
 	p := promptui.Prompt{
-		Label: display,
-		Mask:  '*',
+		Label:  display,
+		Mask:   '*',
+		Stdout: &bellSkipper{},
 	}
 	s, err = p.Run()
 	return
@@ -108,6 +135,7 @@ func promptStringWithDefault(display, def string) (s string, err error) {
 			ValidationError: fmt.Sprintf(`{{ ">>" | red }} {{ . | red }}{{ ": " | bold}}`),
 			Success:         fmt.Sprintf(`{{ "%s" | bold }} {{ . | faint }}{{ ": " | bold}}`, promptui.IconGood),
 		},
+		Stdout: &bellSkipper{},
 	}
 	if len(def) > 0 {
 		p.Default = def
@@ -118,8 +146,9 @@ func promptStringWithDefault(display, def string) (s string, err error) {
 
 func promptSelection(display string, choices ...string) (s string, err error) {
 	p := promptui.Select{
-		Label: display,
-		Items: choices,
+		Label:  display,
+		Items:  choices,
+		Stdout: &bellSkipper{},
 	}
 	_, s, err = p.Run()
 	if err != nil {
@@ -147,6 +176,7 @@ func promptIntWithDefault(display string, def int) (v int, err error) {
 			ValidationError: fmt.Sprintf(`{{ ">>" | red }} {{ . | red }}{{ ": " | bold}}`),
 			Success:         fmt.Sprintf(`{{ "%s" | bold }} {{ . | faint }}{{ ": " | bold}}`, promptui.IconGood),
 		},
+		Stdout: &bellSkipper{},
 	}
 	var s string
 	s, err = p.Run()
@@ -178,6 +208,7 @@ func promptFloat64WithDefault(display string, def int) (v float64, err error) {
 			ValidationError: fmt.Sprintf(`{{ ">>" | red }} {{ . | red }}{{ ": " | bold}}`),
 			Success:         fmt.Sprintf(`{{ "%s" | bold }} {{ . | faint }}{{ ": " | bold}}`, promptui.IconGood),
 		},
+		Stdout: &bellSkipper{},
 	}
 	var s string
 	s, err = p.Run()
