@@ -146,8 +146,12 @@ func promptStringWithDefault(display, def string) (s string, err error) {
 
 func promptSelection(display string, choices ...string) (s string, err error) {
 	p := promptui.Select{
-		Label:  display,
-		Items:  choices,
+		Label: display,
+		Items: choices,
+		Templates: &promptui.SelectTemplates{
+			Label:    fmt.Sprintf(`{{ "%s" | bold }} {{ . | bold }}{{ ": " | bold}}`, promptui.IconInitial),
+			Selected: fmt.Sprintf(`{{ "%s" | bold }} {{ "%s" | faint }}{{ ": " | bold}}{{ . }}`, promptui.IconGood, display),
+		},
 		Stdout: &bellSkipper{},
 	}
 	_, s, err = p.Run()
